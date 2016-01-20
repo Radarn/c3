@@ -4,7 +4,7 @@ $(".warm").click(function(){
 	$.getJSON(swedenWeather, function(data){
 		$(data.list).each(function(index, element){
 			arr.push(element.main.temp);
-		}); //End each loop
+		}); //End each loopl
 		Array.min(arr);
 		Array.max(arr);
 	}); //End getJSON
