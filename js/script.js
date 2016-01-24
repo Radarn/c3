@@ -1,7 +1,7 @@
 var arr = [];
 var map;
-var string = "";
-$(".warm").click(function(){
+$("button").click(function(){
+	var id = this.id;
 	var swedenWeather = "http://api.openweathermap.org/data/2.5/find?lat=62.7&lon=16.2&cnt=20&APPID=c228f71bf091522167799172d83450d3";
 	$.getJSON(swedenWeather, function(data){
 		$(data.list).each(function(index, element){
@@ -25,20 +25,38 @@ $(".warm").click(function(){
 
 		var pickFirstCity = 0;
 		$(data.list).each(function(index, element){
-			if (element.main.temp === highestTemp) {
-				//Makes the function pick the first one in the list if there are
-				//multiply cities with the same (warmest) degree.
-				if (pickFirstCity === 0) {
-					var obj = {
-						name: element.name,
-						lon: element.coord.lon,
-						lat: element.coord.lat,
-						temp: element.main.temp
+			if (id === "warm"){
+				if (element.main.temp === highestTemp) {
+					//Makes the function pick the first one in the list if there are
+					//multiply cities with the same (warmest) degree.
+					if (pickFirstCity === 0) {
+						var obj = {
+							name: element.name,
+							lon: element.coord.lon,
+							lat: element.coord.lat,
+							temp: element.main.temp
+						};
+						pickFirstCity++;
+						$("#map, .back").show();
+						return initMap(obj);
 					};
-					pickFirstCity++;
 				};
-				$("#map, .back").show();
-				return initMap(obj);
+			} else if (id === "cold"){
+				if (element.main.temp === lowestTemp) {
+					//Makes the function pick the first one in the list if there are
+					//multiply cities with the same (warmest) degree.
+					if (pickFirstCity === 0) {
+						var obj = {
+							name: element.name,
+							lon: element.coord.lon,
+							lat: element.coord.lat,
+							temp: element.main.temp
+						};
+						pickFirstCity++;
+						$("#map, .back").show();
+						return initMap(obj);
+					};
+				};
 			};
 		}); // End each loop
 	}); //End getJSON
@@ -49,6 +67,8 @@ var initMap = function(obj){
 		center: {lat: obj.lat, lng: obj.lon},
 		zoom: 10
 	});
+
+	//Sets the text and hide / shows the different buttons and map
 	$(".info-text").text("");
 	$(".info-text").text("The warmest city in Sweden right now is " + obj.name + " with " + obj.temp + " degrees!");
 	$(".cold, .warm").hide();
