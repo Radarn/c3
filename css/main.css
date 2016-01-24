@@ -29,6 +29,17 @@ body {
 	
 }
 
+.back {
+	display: none;
+}
+
+#map {
+	margin: 0 auto;
+	margin-top: 100px;
+	width: 500px;
+	height: 500px;
+}
+
 @media (max-width: 951px) {
 	.warm {
 		margin-top: 2%;
