@@ -41,8 +41,13 @@ $(".warm, .cold").click(function(){
 
 		//Creating variable to force the program to only choose 1 city even if there
 		//are multiply cities that share the highest/coldest degree value at the time
-			
+
 		var pickFirstCity = 0;
+
+		//Adding audio element
+
+		$audio = $("<audio></audio>")
+		$("body").append($audio);
 
 		if (id === "warm"){
 
@@ -53,6 +58,11 @@ $(".warm, .cold").click(function(){
 				randomNumber = Math.floor(Math.random()*20);
 				$("body").css("background-image", "url("+data.items[randomNumber].media.m+")");
 				}); //End getJSON
+
+			//Setting audio attr and plays it
+
+			$audio.attr("src", "../sounds/warm.mp3");
+			$audio.attr("autoplay", "autoplay");
 
 			$(data.list).each(function(index, element){
 				if (element.main.temp === highestTemp) {
@@ -83,6 +93,12 @@ $(".warm, .cold").click(function(){
 					randomNumber = Math.floor(Math.random()*20);
 					$("body").css("background-image", "url("+data.items[randomNumber].media.m+")");
 				}); //End getJSON
+
+					//Setting audio attr and plays it
+
+					$audio.attr("src", "../sounds/cold.mp3");
+					$audio.attr("autoplay", "autoplay");
+					
 
 				$(data.list).each(function(index, element){
 				if (element.main.temp === lowestTemp) {
@@ -117,6 +133,8 @@ var initMap = function(obj){
 	$(".cold, .warm").hide();
 	$(".back").show();
 	$(".back").click(function(){
+		//stops/removes the sound effect
+		$audio.remove();
 		$(".cold, .warm").show();
 		$("#map, .back").hide();
 		$(".info-text").text("");
