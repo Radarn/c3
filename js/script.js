@@ -8,6 +8,7 @@ window.onload = function(){
 			coords.lat = position.coords.latitude
 			coords.lon = position.coords.longitude
 			$(".btn-section").show();
+			$("img").hide();
 		}); //End anonymous function
 	} else {
 		alert("Your browser does not support geolocation");
@@ -15,10 +16,12 @@ window.onload = function(){
 }
 
 
-$("button").click(function(){
+$(".warm, .cold").click(function(){
 	var id = this.id;
 	var lat = coords.lat;
 	var lon = coords.lon;
+	var coldPhotos = "https://api.flickr.com/services/feeds/photos_public.gne?tags=winterice&format=json&jsoncallback=?"
+	var warmPhotos = "https://api.flickr.com/services/feeds/photos_public.gne?tags=tropicalsunset&format=json&jsoncallback=?"
 	var weather = "http://api.openweathermap.org/data/2.5/find?lat=" + lat + "&lon=" + lon + "&cnt=50&APPID=c228f71bf091522167799172d83450d3";
 	$.getJSON(weather, function(data){
 		$(data.list).each(function(index, element){
@@ -31,21 +34,32 @@ $("button").click(function(){
 
 		}); //End each loop
 
-		//Checking the lowest and highest temp in the array.
+		//Getting the highest and lowest temp in the array holding all the temps
 
 		var lowestTemp = Math.min.apply(Math, arr);
-		var highestTemp = Math.max.apply(Math, arr);	
+		var highestTemp = Math.max.apply(Math, arr);
 
-		//Loops through the data.list elements again and check if any of their
-		//temperatues matches the lowest/highest temp variables. If so
-		//create an object containing the information we need about that element
-
+		//Creating variable to force the program to only choose 1 city even if there
+		//are multiply cities that share the highest/coldest degree value at the time
+			
 		var pickFirstCity = 0;
-		$(data.list).each(function(index, element){
-			if (id === "warm"){
+
+		if (id === "warm"){
+
+			//Getting random picture from flickr with tagname tropicalsunset and sets
+			//background image property to that image
+
+			$.getJSON(warmPhotos, function(data){
+				randomNumber = Math.floor(Math.random()*20);
+				$("body").css("background-image", "url("+data.items[randomNumber].media.m+")");
+				}); //End getJSON
+
+			$(data.list).each(function(index, element){
 				if (element.main.temp === highestTemp) {
+
 					//Makes the function pick the first one in the list if there are
 					//multiply cities with the same (warmest) degree.
+
 					if (pickFirstCity === 0) {
 						var obj = {
 							name: element.name,
@@ -54,14 +68,26 @@ $("button").click(function(){
 							temp: element.main.temp
 						};
 						pickFirstCity++;
-						$("#map, .back").show();
-						return initMap(obj);
+							$("#map, .back").show();
+							return initMap(obj);
+						
 					};
 				};
-			} else if (id === "cold"){
+			}); //End each loop
+		} else if (id === "cold") {
+
+				//Getting random picture from flickr with tagname winterice and sets
+				//background image property to that image
+
+				$.getJSON(coldPhotos, function(data){					
+					randomNumber = Math.floor(Math.random()*20);
+					$("body").css("background-image", "url("+data.items[randomNumber].media.m+")");
+				}); //End getJSON
+
+				$(data.list).each(function(index, element){
 				if (element.main.temp === lowestTemp) {
 					//Makes the function pick the first one in the list if there are
-					//multiply cities with the same (warmest) degree.
+					//multiply cities with the same (coldest) degree.
 					if (pickFirstCity === 0) {
 						var obj = {
 							name: element.name,
@@ -74,8 +100,8 @@ $("button").click(function(){
 						return initMap(obj);
 					};
 				};
-			};
-		}); // End each loop
+			}); //End each loop
+		};
 	}); //End getJSON
 }); //End click
 
@@ -83,17 +109,19 @@ var initMap = function(obj){
 
 	map = new google.maps.Map(document.getElementById("map"), {
 		center: {lat: obj.lat, lng: obj.lon},
-		zoom: 10
+		zoom: 13
 	});
 
 	//Sets the text and hide / shows the different buttons and map
-	$(".info-text").text("");
-	$(".info-text").text("The warmest city in Sweden right now is " + obj.name + " with " + obj.temp + " degrees!");
+	$(".info-text").text("Right now the warmest spot in your area is " + obj.name + " with " + obj.temp + " degrees!");
 	$(".cold, .warm").hide();
 	$(".back").show();
 	$(".back").click(function(){
 		$(".cold, .warm").show();
 		$("#map, .back").hide();
+		$(".info-text").text("");
+		$("body").css("background-image", "url()");
+
 	});
 	
 };
