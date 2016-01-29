@@ -5,8 +5,14 @@ body {
 	background-color: #F2F1EF;
 }
 
-img {
-	color: #F2F1EF;
+#imgGallery {
+	position: absolute;
+	z-index: 0;
+}
+
+#imgGallery > img {
+	width: 220px;
+	height: 220px;
 }
 
 h2 {
@@ -18,7 +24,7 @@ h2 {
 }
 
 .wrapper {
-
+	position: relative;
 	width: 100%;
 	text-align: center;
 	
@@ -46,14 +52,26 @@ h2 {
 	background-color: lime;
 	
 }
+.btn-back-section {
+	position: absolute;
+	z-index: 110;
+	top: 600px;
+	left: 48%;
+}
 
 .back {
+	
 	display: none;
 }
 
 
 #map {
-	margin: 0 auto;
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	z-index: 100;
 	width: 500px;
 	height: 500px;
 }

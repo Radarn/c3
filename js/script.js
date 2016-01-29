@@ -46,7 +46,7 @@ $(".warm, .cold").click(function(){
 
 		//Adding audio element
 
-		$audio = $("<audio></audio>")
+		$audio = $("<audio></audio>");
 		$("body").append($audio);
 
 		if (id === "warm"){
@@ -55,9 +55,14 @@ $(".warm, .cold").click(function(){
 			//background image property to that image
 
 			$.getJSON(warmPhotos, function(data){
-				randomNumber = Math.floor(Math.random()*20);
-				$("body").css("background-image", "url("+data.items[randomNumber].media.m+")");
-				}); //End getJSON
+				
+				$.each(data.items, function(index, element){
+					$("body").css("background-color", "orange");
+					var $img = $("<img>");
+					$img.attr("src", element.media.m);
+					$("#imgGallery").append($img);
+				}); //End each loop
+			}); //End getJSON
 
 			//Setting audio attr and plays it
 
@@ -90,8 +95,12 @@ $(".warm, .cold").click(function(){
 				//background image property to that image
 
 				$.getJSON(coldPhotos, function(data){					
-					randomNumber = Math.floor(Math.random()*20);
-					$("body").css("background-image", "url("+data.items[randomNumber].media.m+")");
+					$.each(data.items, function(index, element){
+						$("body").css("background-color", "lightblue");
+						var $img = $("<img>");
+						$img.attr("src", element.media.m);
+						$("#imgGallery").append($img);
+					}); //End each loop
 				}); //End getJSON
 
 					//Setting audio attr and plays it
@@ -138,7 +147,8 @@ var initMap = function(obj){
 		$(".cold, .warm").show();
 		$("#map, .back").hide();
 		$(".info-text").text("");
-		$("body").css("background-image", "url()");
+		$("img").hide();
+		$("body").css("background-color", "initial");
 
 	});
 	
