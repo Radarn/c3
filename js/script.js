@@ -57,7 +57,6 @@ $(".warm, .cold").click(function(){
 			$.getJSON(warmPhotos, function(data){
 				
 				$.each(data.items, function(index, element){
-					$("body").css("background-color", "orange");
 					var $img = $("<img>");
 					$img.attr("src", element.media.m);
 					$("#imgGallery").append($img);
@@ -96,7 +95,6 @@ $(".warm, .cold").click(function(){
 
 				$.getJSON(coldPhotos, function(data){					
 					$.each(data.items, function(index, element){
-						$("body").css("background-color", "lightblue");
 						var $img = $("<img>");
 						$img.attr("src", element.media.m);
 						$("#imgGallery").append($img);
@@ -137,18 +135,21 @@ var initMap = function(obj){
 		zoom: 13
 	});
 
+	//Converts Kelvin to Celsius
+	var celsius = obj.temp - 273.15;
+	celsius = parseFloat(celsius).toFixed(2);
+
 	//Sets the text and hide / shows the different buttons and map
-	$(".info-text").text("Right now the warmest spot in your area is " + obj.name + " with " + obj.temp + " degrees!");
-	$(".cold, .warm").hide();
+	$(".info-text").text("Right now the warmest spot in your area is " + obj.name + " with " + celsius + "C degrees!");
+	$(".btn-section").hide();
 	$(".back").show();
 	$(".back").click(function(){
 		//stops/removes the sound effect
 		$audio.remove();
-		$(".cold, .warm").show();
+		$(".btn-section").show();
 		$("#map, .back").hide();
 		$(".info-text").text("");
 		$("img").hide();
-		$("body").css("background-color", "initial");
 
 	});
 	

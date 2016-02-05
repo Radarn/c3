@@ -2,13 +2,20 @@ html {
 	height: 100%;
 }
 body {
-	background-color: #F2F1EF;
+
+	background-image: url(../images/ljus.jpg);
+	background-size: cover;
+	background-position: center;
+	
 }
 
 #imgGallery {
 	position: absolute;
 	z-index: 0;
 }
+
+
+
 
 #imgGallery > img {
 	width: 220px;
@@ -27,6 +34,7 @@ h2 {
 	position: relative;
 	width: 100%;
 	text-align: center;
+
 	
 
 }
@@ -34,23 +42,24 @@ h2 {
 .btn-section {
 	display: none;
 	font-size: 1.5em;
-	top: 200px;
+	margin-top:20%;
 }
 
 .cold,
 .warm {
 	padding: 2%;
 	margin: 2%;
-	margin-top: 20%;
 	-webkit-box-shadow: 1px 2px 3px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   	-moz-box-shadow:    1px 2px 3px 2px #ccc;  /* Firefox 3.5 - 3.6 */
   	box-shadow:         1px 2px 3px 2px #ccc;
 }
 
-.cold:hover,
-.warm:hover {
-	background-color: lime;
-	
+.warm {
+	color: #E67E22;
+}
+
+.cold {
+	color: blue;
 }
 .btn-back-section {
 	position: absolute;
@@ -66,12 +75,13 @@ h2 {
 
 
 #map {
+	display: none;
 	position: absolute;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0 auto;
 	left: 0;
 	right: 0;
 	z-index: 100;
+	top: 100%;
 	width: 500px;
 	height: 500px;
 }
