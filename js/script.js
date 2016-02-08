@@ -50,7 +50,7 @@ $(".warm, .cold").click(function(){
 		$("body").append($audio);
 
 		if (id === "warm"){
-
+			var warm = "warmest"
 			//Getting random picture from flickr with tagname tropicalsunset and sets
 			//background image property to that image
 
@@ -82,14 +82,13 @@ $(".warm, .cold").click(function(){
 							temp: element.main.temp
 						};
 						pickFirstCity++;
-							$("#map, .back").show();
-							return initMap(obj);
+							return initMap(obj, warm);
 						
 					};
 				};
 			}); //End each loop
 		} else if (id === "cold") {
-
+				var cold = "coldest";
 				//Getting random picture from flickr with tagname winterice and sets
 				//background image property to that image
 
@@ -119,8 +118,7 @@ $(".warm, .cold").click(function(){
 							temp: element.main.temp
 						};
 						pickFirstCity++;
-						$("#map, .back").show();
-						return initMap(obj);
+						return initMap(obj, cold);
 					};
 				};
 			}); //End each loop
@@ -128,7 +126,7 @@ $(".warm, .cold").click(function(){
 	}); //End getJSON
 }); //End click
 
-var initMap = function(obj){
+var initMap = function(obj, weather){
 
 	map = new google.maps.Map(document.getElementById("map"), {
 		center: {lat: obj.lat, lng: obj.lon},
@@ -140,9 +138,9 @@ var initMap = function(obj){
 	celsius = parseFloat(celsius).toFixed(2);
 
 	//Sets the text and hide / shows the different buttons and map
-	$(".info-text").text("Right now the warmest spot in your area is " + obj.name + " with " + celsius + "C degrees!");
+	$(".info-text").text("Right now the " + weather + " spot in your area is " + obj.name + " with " + celsius + "C degrees!");
 	$(".btn-section").hide();
-	$(".back").show();
+	$(".back, #map").show();
 	$(".back").click(function(){
 		//stops/removes the sound effect
 		$audio.remove();
